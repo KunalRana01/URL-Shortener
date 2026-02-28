@@ -1,10 +1,10 @@
 const express = require("express");
-
+const {restrictToLoggedInUserOnly} = require("../middlewares/auth");
 
 const router = express.Router();
 
 
-router.get("/" , (req,res)=>{
+router.get("/" , restrictToLoggedInUserOnly , (req,res)=>{
 
     res.render("home", {
     shortUrl: null,
@@ -15,7 +15,7 @@ router.get("/" , (req,res)=>{
 });
 
 router.get("/signup" , (req,res)=>{
-    res.render("signup");
+    res.render("signup" , {error:null});
 })
 
 router.get("/login" , (req,res)=>{

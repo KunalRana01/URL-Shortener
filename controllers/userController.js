@@ -1,22 +1,27 @@
 const user = require("../models/user-model");
-
+const {setUser} = require("../service/auth");
 
 
 const handleSignUpUser = async (req,res)=>{
 
     const {name, email , password} = req.body;
 
-    await user.create({
+    const alreadyExists = await user.findOne({name,email, password});
+    
+    if(!alreadyExists){
+        await user.create({
         name,
         email,
         password
-    });
-
-    return res.render("/");
-
-
+        });
+    }
+    
+    return res.render("signup" , {error:"User already registered , please login instead !"});
 
 };
+
+
+
 const handleLoginUser = async (req,res)=>{
 
     const {email, password} = req.body;
@@ -25,8 +30,10 @@ const handleLoginUser = async (req,res)=>{
 
     if(!found) return res.render("login" , {error : "Invalid Username Or Password"});
 
-    return res.redirect("/")
+    const token = setUser(found);
+    res.cookie("uid" , token);
 
+    return res.redirect("/")
 
 };
 
