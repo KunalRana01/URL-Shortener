@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 const urlRoute = require("./routes/urlRouter.js");
 const staticRouter = require("./routes/staticRouter.js");
 const userRouter = require("./routes/userRouter.js");
-const {restrictToLoggedInUserOnly , checkAuth} = require("./middlewares/auth.js");
+const {checkForAuthentication , restrictTo} = require("./middlewares/auth.js");
 
 
 //Make mongo connection
@@ -25,6 +25,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(checkForAuthentication);
 
 app.get("/frontend" , async (req,res)=>{
         
@@ -35,7 +36,7 @@ app.get("/frontend" , async (req,res)=>{
 
 
 // Routes
-app.use("/url" , restrictToLoggedInUserOnly ,urlRoute);
+app.use("/url" , restrictTo(["NORMAL"]),urlRoute);
 app.use("/" , staticRouter);
 app.use("/user" , userRouter);
 

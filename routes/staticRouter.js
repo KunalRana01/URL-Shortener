@@ -1,10 +1,10 @@
 const express = require("express");
-const {restrictToLoggedInUserOnly , checkAuth} = require("../middlewares/auth");
+const { restrictTo} = require("../middlewares/auth");
 
 const router = express.Router();
 
 
-router.get("/" , checkAuth , (req,res)=>{
+router.get("/" , restrictTo("NORMAL"),(req,res)=>{
 
     res.render("home", {
     shortUrl: null,
