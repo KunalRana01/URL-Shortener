@@ -31,9 +31,8 @@ const handleLoginUser = async (req,res)=>{
     if(!found) return res.render("login" , {error : "Invalid Username Or Password"});
 
     const token = setUser(found);
-    res.cookie("uid" , token);
-
-    return res.redirect("/")
+    // res.cookie("uid" , token);
+    return res.json({token})
 
 };
 

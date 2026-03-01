@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 const urlRoute = require("./routes/urlRouter.js");
 const staticRouter = require("./routes/staticRouter.js");
 const userRouter = require("./routes/userRouter.js");
-const {restrictToLoggedInUserOnly} = require("./middlewares/auth.js");
+const {restrictToLoggedInUserOnly , checkAuth} = require("./middlewares/auth.js");
 
 
 //Make mongo connection
